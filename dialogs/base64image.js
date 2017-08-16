@@ -208,6 +208,18 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 				]
 			},
 			{
+				type: "hbox",
+				widths: ["70px"],
+				children: [
+					{
+						type: "checkbox",
+						id: "altcheckbox",
+						style: "margin-top:5px",
+						label: "Tentar gerar automaticamente uma descrição"
+					}
+				]
+			},
+			{
 				type: "html",
 				id: "preview",
 				html: new CKEDITOR.template("<div style=\"text-align:center;\"></div>").output()
@@ -316,6 +328,9 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 						t.setValueOf("tab-source", "url", selectedImg.getAttribute("src"));
 					}
 				}
+
+				//Insert here alt description
+
 				if(typeof(selectedImg.getAttribute("alt")) == "string") t.setValueOf("tab-properties", "alt", selectedImg.getAttribute("alt"));
 				if(typeof(selectedImg.getAttribute("hspace")) == "string") t.setValueOf("tab-properties", "hmargin", selectedImg.getAttribute("hspace"));
 				if(typeof(selectedImg.getAttribute("vspace")) == "string") t.setValueOf("tab-properties", "vmargin", selectedImg.getAttribute("vspace"));
@@ -497,7 +512,20 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 						]
 					}
                 ]
-            }
+            },
+			{
+                id: "tab-help",
+                label: editor.lang.base64image.tabHelp,
+                elements: [{
+					type: "html",
+					id: "partial_section",
+					html: "<section class='cke_dialog_partial'></section>",
+					onLoad: function() {
+						var plugin = CKEDITOR.plugins.get('base64image');
+						$('.cke_dialog_partial').load(plugin.path+'partials/dialog-help-partial.html');
+					}
+				}]
+            },
         ]
     };
 });
