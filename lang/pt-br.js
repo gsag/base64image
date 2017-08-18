@@ -9,5 +9,6 @@ CKEDITOR.plugins.setLang("base64image","pt-br",{
 	"vSpace":"VSpace",
 	"hSpace":"HSpace",
 	"border":"Borda",
-	"tabHelp": "Ajuda"
+	"tabHelp": "Ajuda",
+	"altCheckbox": "Tentar gerar automaticamente um texto alternativo para a imagem"
 });

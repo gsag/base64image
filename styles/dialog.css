@@ -1,0 +1,5 @@
+.alt-progress-loader{
+    content:url("../icons/loader.gif");
+    width: 25px;
+    display: none;
+}
