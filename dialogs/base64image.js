@@ -231,6 +231,7 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 					{
 						type: "checkbox",
 						id: "altcheckbox",
+						style: "margin: 2.5px 0 2.5px 0",
 						label: editor.lang.base64image.altCheckbox,
 						default: "checked"
 					},
@@ -265,9 +266,14 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 					{
 						type: "checkbox",
 						id: "altcheckbox",
-						style: "margin-top:5px",
+						style: "margin: 2.5px 0 2.5px 0",
 						label: editor.lang.base64image.altCheckbox,
 						default: "checked"
+					},
+					{
+						type: "html",
+						id: "altprogress",
+						html: "<section class='cke_alt_progress'><i class='alt-progress-loader'/></section>",
 					}
 				]
 			},
@@ -283,7 +289,7 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 		var subscriptionKey = "418f2a426f45497ca2271fb4a5d0608d";
 		var uriBase = "https://eastus2.api.cognitive.microsoft.com/vision/v1.0/analyze";
 		var params = {
-			"visualFeatures": "Categories,Description", 
+			"visualFeatures": "Description", //Categories,Description
 			"details": "",
 			"language": "en",
 		};
@@ -295,6 +301,8 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 			contentType = "application/octet-stream";
 			dataToSend = base64ToBlob(imageSource);
 		}
+		var loader = $(".alt-progress-loader");
+		loader.css("display","block");
 		$.ajax({
 			url: uriBase + "?" + $.param(params),		
 			// Request headers.
@@ -310,6 +318,8 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 			contentElement.setValue(response.description.captions[0].text);
 		  }).fail(function(jqXHR, textStatus, errorThrown) {
 			console.log(textStatus + ' - ' + errorThrown);			
+		  }).always(function(){
+			loader.css("display","none");
 		  });		
 	}
 
