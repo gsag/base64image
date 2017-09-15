@@ -189,37 +189,46 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 		/* Dialog with file and url image source */
 		var sourceElements = [
 			{
+				type: "html",
+				className: "fadeAfterUpload",
+				html: "<h1><strong>Envie uma imagem via URL ou através de seu computador</strong></h1>"
+			},
+			{
 				type: "hbox",
-				widths: ["70px"],
+				widths: ["0px"],
+				padding: "0px",
+				className: "fadeAfterUpload",
 				children: [
 					{
 						type: "checkbox",
 						id: "urlcheckbox",
-						style: "margin-top:5px",
+						style: "margin-top:5px; display:none;",
 						label: editor.lang.common.url+":"
 					},
 					{
 						type: "text",
 						id: "url",
-						label: "",
+						label: editor.lang.common.url+":",
 						onChange: function(){ imagePreview("url"); }
 					}
 				]
 			},
 			{
 				type: "hbox",
-				widths: ["70px"],
+				widths: ["0px"],
+				padding: "0px",
+				className: "fadeAfterUpload",
 				children: [
 					{
 						type: "checkbox",
 						id: "filecheckbox",
-						style: "margin-top:5px",
+						style: "margin-top:5px; display:none;",
 						label: editor.lang.common.upload+":"
 					},
 					{
 						type: "file",
 						id: "file",
-						label: "",
+						label: editor.lang.common.upload+":",
 						onChange: function(){ imagePreview("file"); }
 					}
 				]
@@ -227,6 +236,7 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 			{
 				type: "hbox",
 				widths: ["70px"],
+				className: "fadeAfterUpload",
 				children: [
 					{
 						type: "checkbox",
@@ -246,6 +256,17 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 				type: "html",
 				id: "preview",
 				html: new CKEDITOR.template("<div style=\"text-align:center;\"></div>").output()
+			},
+			{
+				type: "text",
+				id: "alt_source",
+				label: editor.lang.base64image.alt,
+				maxLength: 100
+			},
+			{
+				type: "textarea",
+				id: "alt_desc_source",
+				label: "Descrição longa"
 			}
 		];
 		
@@ -253,6 +274,11 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 		
 		/* Dialog with url image source */
 		var sourceElements = [
+			{
+				type: "html",
+				id: "tabTitle",
+				html: "<h1><strong>Envie uma imagem via URL ou através de seu computador</strong></h1>"
+			},
 			{
 				type: "text",
 				id: "url",
@@ -283,14 +309,13 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 				html: new CKEDITOR.template("<div style=\"text-align:center;\"></div>").output()
 			}
 		];
-	}
+	}	
 
 	function processAlternativeTextFromUploadedImage(imageSource, contentElement, sourceType){
-		var subscriptionKey = "418f2a426f45497ca2271fb4a5d0608d";
+		var subscriptionKey = "a4858f0502de4bf2b34686486e7c01a7";
 		var uriBase = "https://eastus2.api.cognitive.microsoft.com/vision/v1.0/analyze";
 		var params = {
-			"visualFeatures": "Description", //Categories,Description
-			"details": "",
+			"visualFeatures": "Categories,Description",
 			"language": "en",
 		};
 		var contentType = null, dataToSend = null;
@@ -315,11 +340,13 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 			// Request body.
 			data: dataToSend		
 		  }).done(function(response){
-			contentElement.setValue(response.description.captions[0].text);
+			fadeElementsAfterUpload();
+			contentElement.setValue(response.description.captions[0].text);	
+			t.setValueOf("tab-source", "alt_source", response.description.captions[0].text)				
 		  }).fail(function(jqXHR, textStatus, errorThrown) {
 			console.log(textStatus + ' - ' + errorThrown);			
 		  }).always(function(){
-			loader.css("display","none");
+			loader.hide();
 		  });		
 	}
 
@@ -333,7 +360,37 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
             uInt8Array[i] = raw.charCodeAt(i);
         }
         return new Blob([uInt8Array], { type: contentType });
-    }
+	}
+	
+	function fadeElementsAfterUpload(){
+		$(".fadeAfterUpload").each(function() {
+			$(this).addClass("animated fadeOutUp");											   
+		}).delay("1000")
+			.queue(function(next){ 
+				$(this).removeClass("animated fadeOutUp");
+				next(); 
+			}).closest(".cke_dialog_ui_vbox_child")
+				.delay("1000")
+				.queue(function(next){ 
+					$(this).hide(); 
+					next(); 
+				});
+	}
+
+	function hideUploadElements(){
+		$(".fadeAfterUpload").each(function(){
+			$(this).hide()
+				   .closest(".cke_dialog_ui_vbox_child")
+				   .hide();
+		});
+	}
+
+	function resetFadeElements(){
+		$(".fadeAfterUpload")
+			.show()
+			.closest(".cke_dialog_ui_vbox_child")
+			.show();
+	}
 
 	/* Dialog */
     return {
@@ -383,6 +440,8 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 			imgPreview.getElement().setHtml("");
 			
 			t = this, orgWidth = null, orgHeight = null, imgScal = 1, lock = true;
+
+			resetFadeElements();
 			
 			/* selected image or null */
 			selectedImg = editor.getSelection();
@@ -396,6 +455,8 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 			t.setValueOf("tab-properties", "border", "0");
 			t.setValueOf("tab-properties", "align", "none");
 			if(selectedImg) {
+				//if selected image exists, hide upload elements
+				hideUploadElements();
 				
 				/* Set input values from selected image */
 				if(typeof(selectedImg.getAttribute("width")) == "string") orgWidth = selectedImg.getAttribute("width");
@@ -414,7 +475,10 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 					if(imgScal <= 0) imgScal = 1;
 				}
 
-				if(typeof(selectedImg.getAttribute("alt")) == "string") t.setValueOf("tab-properties", "alt", selectedImg.getAttribute("alt"));
+				if(typeof(selectedImg.getAttribute("alt")) == "string"){ 
+					t.setValueOf("tab-properties", "alt", selectedImg.getAttribute("alt"));
+					t.setValueOf("tab-source", "alt_source", selectedImg.getAttribute("alt"));
+				}
 				
 				if(typeof(selectedImg.getAttribute("src")) == "string") {
 					if(selectedImg.getAttribute("src").indexOf("data:") === 0) {
@@ -447,9 +511,10 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 							break;
 					}
 				}
-				t.selectPage("tab-properties");
-			}
-			
+				t.selectPage("tab-source");
+			}else{
+				resetFadeElements();
+			}		
 		},
 		onOk : function(){
 			
@@ -464,6 +529,7 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 			src = null;			
 			
 			/* Set attributes */
+			t.setValueOf("tab-properties", "alt", t.getValueOf("tab-source", "alt_source"));
 			newImg.setAttribute("alt", t.getValueOf("tab-properties", "alt").replace(/^\s+/, "").replace(/\s+$/, ""));
 			var attr = {
 				"width" : ["width", "width:#;", "integer", 1],
@@ -524,7 +590,6 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 			
 			/* Resize image */
 			if(editor.plugins.imageresize) editor.plugins.imageresize.resize(editor, newImg, 800, 800);
-			
 		},
 		
 		/* Dialog form */
@@ -541,7 +606,9 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
                     {
                         type: "text",
                         id: "alt",
-                        label: editor.lang.base64image.alt
+						label: editor.lang.base64image.alt,
+						maxLength: 100,
+						style: "display:none;"
                     },
                     {
 						type: 'hbox',
@@ -605,20 +672,7 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 						]
 					}
                 ]
-			},
-			{
-                id: "tab-help",
-                label: editor.lang.base64image.tabHelp,
-                elements: [{
-					type: "html",
-					id: "partial_section",
-					html: "<section class='cke_dialog_partial'></section>",
-					onLoad: function() {
-						var plugin = CKEDITOR.plugins.get('base64image');
-						$('.cke_dialog_partial').load(plugin.path+'partials/dialog-help-partial.html');
-					}
-				}]
-            }
+			}
         ]
     };
 });
