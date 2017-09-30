@@ -14,7 +14,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 			empty: "",
 			standard: "Gostaria de fornecer textos alternativos melhores? </br>" +
 			"Veja aqui algumas dicas para melhorar a descrição de imagens",
-			uploading: "Tentando gerar texto alternativo..."
+			uploading: "Tentando gerar texto alternativo para a imagem..."
 		}
 	
 		var translatorToken = {
@@ -592,6 +592,13 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 						updateAltTextInputElementAndCounter(selectedImg.getAttribute("alt"));
 					}
 	
+					var selectedImgDescription = editor.document.findOne('figcaption#'+selectedImg.getAttribute("aria-describedby"));
+					if(selectedImgDescription){
+						t.setValueOf("tab-source", "alt_long_desc", selectedImgDescription.$.innerText);
+					}else{
+						selectedImg.removeAttribute("aria-describedby");
+					}
+	
 					if (typeof (selectedImg.getAttribute("src")) == "string") {
 						if (selectedImg.getAttribute("src").indexOf("data:") === 0) {
 							imagePreview("base64");
@@ -696,10 +703,37 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 					}
 	
 				}
-				if (css.length > 0) newImg.setAttribute("style", css.join(""));
+				if (css.length > 0) newImg.setAttribute("style", css.join(""));			
+	
+				var description = null;
+				var selectedImgDescription = editor.document.findOne('figcaption#'+newImg.getAttribute("aria-describedby"));
+				if(t.getValueOf("tab-source", "alt_long_desc").length > 0){				
+					var descriptionId = null;
+					if(selectedImgDescription){
+						descriptionId = selectedImgDescription.getAttribute("id");
+						description = selectedImgDescription;
+					}else{
+						descriptionId = 'longdesc_'+Date.now().toString(16);
+						description = new CKEDITOR.dom.element("figcaption");
+					}
+					description.setAttribute("id", descriptionId)
+							   .setStyle("text-align","justify")
+							   .setHtml(t.getValueOf("tab-source", "alt_long_desc"));
+					newImg.setAttribute("aria-describedby", descriptionId);
+				}else{
+					if(selectedImgDescription) {
+						selectedImgDescription.remove();
+						newImg.removeAttribute("aria-describedby");
+					}
+				}
 	
 				/* Insert new image */
-				if (!selectedImg) editor.insertElement(newImg);
+				if(!selectedImg){
+					var figure = new CKEDITOR.dom.element("figure");
+					figure.setAttribute("role","group").append(newImg);
+					editor.insertElement(figure);
+				} 
+				if(description) description.insertAfter(newImg);
 	
 				/* Resize image */
 				if (editor.plugins.imageresize) editor.plugins.imageresize.resize(editor, newImg, 800, 800);
