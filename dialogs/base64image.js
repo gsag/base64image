@@ -12,10 +12,129 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 	
 		var infoProgressMessages = {
 			empty: "",
-			standard: "Gostaria de fornecer textos alternativos melhores? </br>" +
-			"Veja aqui algumas dicas para melhorar a descrição de imagens",
-			uploading: "Tentando gerar texto alternativo para a imagem..."
+			standard: "Gostaria de melhorar a descrição inicial gerada? </br>",
+			help: "O-oh... Não foi possível gerar uma descrição inicial para essa imagem. </br>",
+			uploading: "Tentando gerar texto alternativo para a imagem...",
+			editing: "Gostaria de melhorar a descrição desta imagem? </br>"+ 
+			"<a href=\'\' target=\'_blank\'>Veja algumas dicas e recomendações para descrições (link para nova página)</a>",
+			error: "Houve um erro ao obter a descrição da imagem.",
+			helpChatbot: "Para te ajudar a criar uma descrição ou melhorar a existente, é preciso descobrir </br> em qual categoria essa imagem se encaixa...",
+			byCategory: function(category){return imageCategoryMapping.get(category)}
 		}
+
+		var imageCategoryInfoText = {
+			object: "<a href=\'#\' target=\'_blank\'>Veja dicas sobre como descrever objetos (link para nova página)</a>",
+			animal: "<a href=\'#\' target=\'_blank\'>Veja dicas sobre como descrever animais (link para nova página)</a>"
+		}
+		var imageCategoryMapping = new Map([
+			['food_',''],
+			['food_bread',''],
+			['food_grilled',''],
+			['food_pisa',''],
+			['food_fastfood',''],
+			['food_market',''],
+
+			['trans_',''],
+			['trans_car',''],
+			['trans_bus',''],
+			['trans_trainstation',''],
+			['trans_bicycle',''],
+
+			['drink_',''],
+			['drink_drink',''],
+			['drink_can',''],
+
+			['object_', imageCategoryInfoText.object],
+			['object_screen', imageCategoryInfoText.object],
+			['object_sculpture', imageCategoryInfoText.object],
+
+			['animal_', imageCategoryInfoText.animal],
+			['animal_cat', imageCategoryInfoText.animal],
+			['animal_bird', imageCategoryInfoText.animal],
+			['animal_panda', imageCategoryInfoText.animal],
+			['animal_dog', imageCategoryInfoText.animal],
+			['animal_horse', imageCategoryInfoText.animal],
+
+			['text_',undefined],
+			['text_mag',undefined],
+			['text_menu',undefined],
+			['text_text',undefined],
+			['text_sign',undefined],
+			['text_map',undefined],
+
+			['plant_'],
+			['plant_tree'],
+			['plant_branches'],
+			['plant_flower'],
+			['plant_leave'],
+
+			['people_',''],
+			['people_crowd',''],
+			['people_young',''],
+			['people_baby',''],
+			['people_tattoo',''],
+			['people_people',''],
+			['people_many',''],
+			['people_swimming',''],
+			['people_group',''],
+			['people_show',''],
+			['people_hand',''],
+			['people_portrait',''],
+
+			['building_',''],
+			['building_doorwindow',''],
+			['building_stair',''],
+			['building_corner',''],
+			['building_pillar',''],
+			['building_street',''],
+			['building_arch',''],
+			['building_brickwall',''],
+			['building_church',''],
+
+			['abstract_',undefined],
+			['abstract_net',undefined],
+			['abstract_nonphoto',undefined],
+			['abstract_rect',undefined],
+			['abstract_shape',undefined],
+			['abstract_texture',undefined],
+
+			['others_',undefined],
+
+			['indoor_',''],
+			['indoor_venue',''],
+			['indoor_marketstore',''],
+			['indoor_storewindow',''],
+			['indoor_room',''],
+			['indoor_churchwindow',''],
+			['indoor_court',''],
+
+			['dark_',''],
+			['dark_fire',''],
+			['dark_fireworks',''],
+			['dark_ligthindark',''],
+
+			['sky_',''],
+			['sky_rainbow',''],
+			['sky_object',''],
+			['sky_cloud',''],
+			['sky_sun',''],
+
+			['outdoor_',''],
+			['outdoor_field',''],
+			['outdoor_house',''],
+			['outdoor_stonerock',''],
+			['outdoor_swimmingpool',''],
+			['outdoor_waterside',''],
+			['outdoor_street',''],
+			['outdoor_oceanbeach',''],
+			['outdoor_grass',''],
+			['outdoor_road',''],
+			['outdoor_city',''],
+			['outdoor_water',''],
+			['outdoor_mountain',''],
+			['outdoor_playground',''],
+			['outdoor_railway',''],
+		]);
 	
 		var translatorToken = {
 			token: undefined,
@@ -116,7 +235,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 						processAlternativeTextFromUploadedImage(urlI.getValue(), src);
 					} else {
 						fadeElementsAfterUpload();
-						setTextForInfoProgress(infoProgressMessages.standard);
+						setTextForInfoProgress(infoProgressMessages.editing);
 					}
 				}
 	
@@ -147,7 +266,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 								processAlternativeTextFromUploadedImage(e.target.result, 'file');
 							} else {
 								fadeElementsAfterUpload();
-								setTextForInfoProgress(infoProgressMessages.standard);
+								setTextForInfoProgress(infoProgressMessages.editing);
 							}
 	
 						};
@@ -277,7 +396,26 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 					html: new CKEDITOR.template("<section class='cke_alt_progress'>" +
 													"<p id='infoprogress'><span></span>" +
 													"<i class='alt-progress-loader'/></p>" +
-												"</section>").output(),
+												"</section>").output()
+				},
+				{
+					type: "html",
+					id: "chatbot",					
+					html: new CKEDITOR.template(
+						'<div id="chatbot_wrapper">'+
+							'<label class="cke_dialog_ui_labeled_label" for="humanInput">'+
+							'Na caixa de texto abaixo, digite algo que ajude a identificar a categoria da imagem ou </br>'+
+							'dê um duplo clique no campo para ver as opções. (Para enviar use <strong>shift + enter</strong>)'+
+							'</label>'+
+							'</br>'+
+							'<input id="humanInput" type="text" class="cke_dialog_ui_input_text"'+ 
+								'placeholder="Para enviar a opção selecionada use shift + enter."/>'+						
+							'<div id="chatBot">'+
+								'<div id="chatBotThinkingIndicator"></div>'+
+								'<div id="chatBotHistory"></div>'+
+							'</div>'+
+						'</div>'
+					).output()
 				},
 				{
 					type: "text",
@@ -347,6 +485,25 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 												"</section>").output()
 				},
 				{
+					type: "html",
+					id: "chatbot",					
+					html: new CKEDITOR.template(
+						'<div id="chatbot_wrapper">'+
+							'<label class="cke_dialog_ui_labeled_label" for="humanInput">'+
+							'Na caixa de texto abaixo, digite algo que ajude a identificar a categoria da imagem ou </br>'+
+							'dê um duplo clique no campo para ver as opções. (Para enviar use <strong>shift + enter</strong>)'+
+							'</label>'+
+							'</br>'+
+							'<input id="humanInput" type="text" class="cke_dialog_ui_input_text"'+ 
+								'placeholder="Para enviar a opção selecionada use shift + enter."/>'+						
+							'<div id="chatBot">'+
+								'<div id="chatBotThinkingIndicator"></div>'+
+								'<div id="chatBotHistory"></div>'+
+							'</div>'+
+						'</div>'
+					).output()
+				},
+				{
 					type: "text",
 					id: "alt",
 					label: editor.lang.base64image.alt + ':',
@@ -360,8 +517,13 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 			];
 		}
 	
-		function setTextForInfoProgress(text) {
-			document.getElementById("infoprogress").firstChild.innerHTML = text;
+		function setTextForInfoProgress(text, append) {
+			var element = document.getElementById("infoprogress").firstChild;			
+			if(append){
+				element.innerHTML += text;
+			}else{
+				element.innerHTML = text;
+			}
 		}
 	
 		function processAlternativeTextFromUploadedImage(imageSource, sourceType) {
@@ -395,14 +557,64 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 				data: dataToSend
 			}).done(function (response) {
 				fadeElementsAfterUpload();
-				prepareToTranslate(response.description.captions[0].text);
-				setTextForInfoProgress(infoProgressMessages.standard);
+				var confidence = getImageDescriptionConfidence(response.description);
+				if(confidence >= 0.80){
+					//Good confidence on description, probably an useful one.
+					console.log("Good confidence on description, probably an useful one. "+confidence);
+					console.log(response);		
+					prepareToTranslate(response);
+					setTextForInfoProgress(infoProgressMessages.standard);				
+				}else{
+					//Not so good confidence, try to help the user on describing the image.					
+					console.log("Not so good... "+confidence);
+					console.log(response);
+					setTextForInfoProgress(infoProgressMessages.help);		
+				}
+				findCategoryInfoOrInteractWithUser(response.categories);							
 			}).fail(function (jqXHR, textStatus, errorThrown) {
 				console.log(textStatus + ' - ' + errorThrown);
-				setTextForInfoProgress(errorThrown);
+				setTextForInfoProgress(infoProgressMessages.error + ' ('+errorThrown+')');
 			}).always(function () {
 				loader.hide();
 			});
+		}
+
+		function getImageDescriptionConfidence(description){
+			return description.captions[0].confidence;
+		}
+
+		function getMostRelevantCategoryFromImage(categories){
+			var relevant = categories[0];
+			for(var ci = 1; ci < categories.length; ci++){
+				if(relevant.score < categories[ci].score){
+					relevant = categories[ci];
+				}
+			}
+			return relevant;
+		}
+
+		/**
+		 * Verify if there are categories from the response
+		 * and show a link to the appropriated section on help page.
+		 * Otherwise, interact to obtain the appropriated section.
+		 * @param {Array} categories 
+		 */
+		function findCategoryInfoOrInteractWithUser(categories){			
+			if(categories){
+				var category = getMostRelevantCategoryFromImage(categories);
+				var message = infoProgressMessages.byCategory(category.name);
+				if(message){ //category message is defined
+					setTextForInfoProgress(message, true);
+				}else{ //otherwise it wil need interaction with the user
+					setTextForInfoProgress(infoProgressMessages.helpChatbot, true);
+					$(".cke_dialog_ui_vbox_child > #chatbot_wrapper").parent().css("display","block");
+				}				
+			}else{
+				//algoritmo para pedir ajuda ao usuário...
+				setTextForInfoProgress(infoProgressMessages.helpChatbot, true);
+				$(".cke_dialog_ui_vbox_child > #chatbot_wrapper").parent().css("display","block");
+				console.log("activate chatbot");
+			}
 		}
 	
 		function translateTextFromEnglishToPortuguese(text) {
@@ -416,16 +628,14 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 			$.ajax({
 				url: uriBase + "?" + $.param(params),
 				type: "GET",
-			}).done(function (response) {
-				updateAltTextInputElementAndCounter(response.substring(1, response.length-1));
-			}).fail(function (jqXHR, textStatus, errorThrown) {
-				console.log(textStatus + " " + errorThrown);
-			});
-	
+			}).done(function (response) {				
+				updateAltTextInputElementAndCounter(response.substring(1, response.length-1));				
+			});	
 		}
 	
 		// Prepare token if necessary then translate the text from english to portuguese
-		function prepareToTranslate(text) {
+		function prepareToTranslate(response) {
+			var text = response.description.captions[0].text;
 			if (Date.now() > translatorToken.timeout || !translatorToken.timeout) {
 				var subscriptionKey = "88ec49004da348b68563a37d5cb8c31a";
 				var uriBase = "https://api.cognitive.microsoft.com/sts/v1.0/issueToken";
@@ -440,8 +650,6 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 					translatorToken.token = response;
 					translatorToken.timeout = Date.now() + 10 * 60 * 1000; //adds 10 minutes
 					translateTextFromEnglishToPortuguese(text);
-				}).fail(function (jqXHR, textStatus, errorThrown) {
-					console.log(textStatus + " " + errorThrown);
 				});
 			}else{
 				translateTextFromEnglishToPortuguese(text);
@@ -495,9 +703,9 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 				t.setValueOf("tab-source", "alt", value);
 			}
 			var input = t.getContentElement("tab-source", "alt").getInputElement();
-			var label = input.$.labels[0].innerText;
-			label = label.substring(0, label.indexOf(":"));
-			input.$.labels[0].innerText = label + ": (" + t.getValueOf("tab-source", "alt").length + "/" + altTextCharLimit + ")";
+			var label = document.querySelector('label[for="'+input.$.id+'"]');
+			var labelText = label.innerText.substring(0, label.innerText.indexOf(":"));
+			label.innerText = labelText + ": (" + t.getValueOf("tab-source", "alt").length + "/" + altTextCharLimit + ")";
 		}
 	
 		/* Dialog */
@@ -543,11 +751,19 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 				this.getContentElement("tab-source", "alt").getInputElement().on("keyup", function (event) {
 					updateAltTextInputElementAndCounter(event.value);
 				});
+
+				/* Hiddens the chatbot input*/
+				$(".cke_dialog_ui_vbox_child > #chatbot_wrapper").parent().css("display","none");
+				/* Loads chatbot configuration */
+				CKEDITOR.scriptLoader.load(CKEDITOR.getUrl('plugins/base64image/libs/js/chatbot.config.js'));
 			},
 			onShow: function () {
 	
 				/* Remove preview */
 				imgPreview.getElement().setHtml("");
+
+				/* Hiddens the chatbot input*/
+				$(".cke_dialog_ui_vbox_child > #chatbot_wrapper").parent().css("display","none");
 	
 				t = this, orgWidth = null, orgHeight = null, imgScal = 1, lock = true;
 	
@@ -568,8 +784,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 					//if selected image exists, hide upload elements
 					hideUploadElements();
 	
-					// Load default message for infoprogress element
-					setTextForInfoProgress(infoProgressMessages.standard);
+					setTextForInfoProgress(infoProgressMessages.editing);
 	
 					/* Set input values from selected image */
 					if (typeof (selectedImg.getAttribute("width")) == "string") orgWidth = selectedImg.getAttribute("width");
