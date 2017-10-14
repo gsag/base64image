@@ -2,6 +2,22 @@
  * Created by ALL-INKL.COM - Neue Medien Muennich - 04. Feb 2014
  * Licensed under the terms of GPL, LGPL and MPL licenses.
  */
+
+// Global Constant needed to share links with chatbot configuration
+var IMAGE_CATEGORY_LINKS = {
+	object: '<a href="/editor/recomendacoes/imagem#imagens-informativas-exemplo-objetos" target="_blank">Veja dicas sobre como descrever objetos (link para nova página)</a>',
+	animal: '<a href="/editor/recomendacoes/imagem#imagens-informativas-exemplo-animais" target="_blank">Veja dicas sobre como descrever animais (link para nova página)</a>',
+	text: '<a href="/editor/recomendacoes/imagem#imagens-texto" target="_blank">Veja dicas sobre como descrever imagens de texto (link para nova página)</a>',
+	text_cartoon: '<a href="/editor/recomendacoes/imagem#imagens-texto-exemplo-cartuns-charges" target="_blank">Veja dicas sobre como descrever charges e cartuns (link para nova página)</a>',
+	text_comics: '<a href="/editor/recomendacoes/imagem#imagens-texto-exemplo-quadros" target="_blank">Veja dicas sobre como descrever tiras cômicas (link para nova página)</a>',
+	text_table: '<a href="/editor/recomendacoes/imagem#imagens-texto-exemplo-tabelas" target="_blank">Veja dicas sobre como descrever tabelas (link para nova página)</a>',
+	food: '<a href="/editor/recomendacoes/imagem#imagens-informativas-exemplo-alimentos" target="_blank">Veja dicas sobre como descrever alimentos (link para nova página)</a>',
+	people: '<a href="/editor/recomendacoes/imagem#imagens-informativas-exemplo-pessoas" target="_blank">Veja dicas sobre como descrever pessoas (link para nova página)</a>',
+	outdoor: '<a href="/editor/recomendacoes/imagem#imagens-informativas-exemplo-construcoes" target="_blank">Veja dicas sobre como descrever construções / imagens ao ar livre </br>(link para nova página)</a>',
+	abstract_map: '<a href="/editor/recomendacoes/imagem#imagens-complexas-exemplo-mapas" target="_blank">Veja dicas sobre como descrever mapas (link para nova página)</a>',
+	abstract_diagram: '<a href="/editor/recomendacoes/imagem#imagens-complexas-exemplo-diagramas" target="_blank">Veja dicas sobre como descrever diagramas (link para nova página)</a>'
+}
+
 CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 	
 		var t = null,
@@ -16,80 +32,76 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 			help: "O-oh... Não foi possível gerar uma descrição inicial para essa imagem. </br>",
 			uploading: "Tentando gerar texto alternativo para a imagem...",
 			editing: "Gostaria de melhorar a descrição desta imagem? </br>"+ 
-			"<a href=\'\' target=\'_blank\'>Veja algumas dicas e recomendações para descrições (link para nova página)</a>",
+			"<a href=\'/editor/recomendacoes/imagem\' target=\'_blank\'>Veja algumas dicas e recomendações para descrições (link para nova página)</a>",
 			error: "Houve um erro ao obter a descrição da imagem.",
 			helpChatbot: "Para te ajudar a criar uma descrição ou melhorar a existente, é preciso descobrir </br> em qual categoria essa imagem se encaixa...",
 			byCategory: function(category){return imageCategoryMapping.get(category)}
 		}
-
-		var imageCategoryInfoText = {
-			object: "<a href=\'#\' target=\'_blank\'>Veja dicas sobre como descrever objetos (link para nova página)</a>",
-			animal: "<a href=\'#\' target=\'_blank\'>Veja dicas sobre como descrever animais (link para nova página)</a>"
-		}
+		
 		var imageCategoryMapping = new Map([
-			['food_',''],
-			['food_bread',''],
-			['food_grilled',''],
-			['food_pisa',''],
-			['food_fastfood',''],
-			['food_market',''],
+			['food_',IMAGE_CATEGORY_LINKS.food],
+			['food_bread',IMAGE_CATEGORY_LINKS.food],
+			['food_grilled',IMAGE_CATEGORY_LINKS.food],
+			['food_pisa',IMAGE_CATEGORY_LINKS.food],
+			['food_fastfood',IMAGE_CATEGORY_LINKS.food],
+			['food_market',IMAGE_CATEGORY_LINKS.food],
 
-			['trans_',''],
-			['trans_car',''],
-			['trans_bus',''],
-			['trans_trainstation',''],
-			['trans_bicycle',''],
+			['trans_',IMAGE_CATEGORY_LINKS.object],
+			['trans_car',IMAGE_CATEGORY_LINKS.object],
+			['trans_bus',IMAGE_CATEGORY_LINKS.object],
+			['trans_trainstation',IMAGE_CATEGORY_LINKS.object],
+			['trans_bicycle',IMAGE_CATEGORY_LINKS.object],
 
-			['drink_',''],
-			['drink_drink',''],
-			['drink_can',''],
+			['drink_',IMAGE_CATEGORY_LINKS.food],
+			['drink_drink',IMAGE_CATEGORY_LINKS.food],
+			['drink_can',IMAGE_CATEGORY_LINKS.food],
 
-			['object_', imageCategoryInfoText.object],
-			['object_screen', imageCategoryInfoText.object],
-			['object_sculpture', imageCategoryInfoText.object],
+			['object_', IMAGE_CATEGORY_LINKS.object],
+			['object_screen', IMAGE_CATEGORY_LINKS.object],
+			['object_sculpture', IMAGE_CATEGORY_LINKS.object],
 
-			['animal_', imageCategoryInfoText.animal],
-			['animal_cat', imageCategoryInfoText.animal],
-			['animal_bird', imageCategoryInfoText.animal],
-			['animal_panda', imageCategoryInfoText.animal],
-			['animal_dog', imageCategoryInfoText.animal],
-			['animal_horse', imageCategoryInfoText.animal],
+			['animal_', IMAGE_CATEGORY_LINKS.animal],
+			['animal_cat', IMAGE_CATEGORY_LINKS.animal],
+			['animal_bird', IMAGE_CATEGORY_LINKS.animal],
+			['animal_panda', IMAGE_CATEGORY_LINKS.animal],
+			['animal_dog', IMAGE_CATEGORY_LINKS.animal],
+			['animal_horse', IMAGE_CATEGORY_LINKS.animal],
 
 			['text_',undefined],
 			['text_mag',undefined],
 			['text_menu',undefined],
 			['text_text',undefined],
 			['text_sign',undefined],
-			['text_map',undefined],
+			['text_map',IMAGE_CATEGORY_LINKS.abstract_map],
 
-			['plant_'],
-			['plant_tree'],
-			['plant_branches'],
-			['plant_flower'],
-			['plant_leave'],
+			['plant_', IMAGE_CATEGORY_LINKS.outdoor],
+			['plant_tree',IMAGE_CATEGORY_LINKS.outdoor],
+			['plant_branches',IMAGE_CATEGORY_LINKS.outdoor],
+			['plant_flower',IMAGE_CATEGORY_LINKS.outdoor],
+			['plant_leave',IMAGE_CATEGORY_LINKS.outdoor],
 
-			['people_',''],
-			['people_crowd',''],
-			['people_young',''],
-			['people_baby',''],
-			['people_tattoo',''],
-			['people_people',''],
-			['people_many',''],
-			['people_swimming',''],
-			['people_group',''],
-			['people_show',''],
-			['people_hand',''],
-			['people_portrait',''],
+			['people_',IMAGE_CATEGORY_LINKS.people],
+			['people_crowd',IMAGE_CATEGORY_LINKS.people],
+			['people_young',IMAGE_CATEGORY_LINKS.people],
+			['people_baby',IMAGE_CATEGORY_LINKS.people],
+			['people_tattoo',IMAGE_CATEGORY_LINKS.people],
+			['people_people',IMAGE_CATEGORY_LINKS.people],
+			['people_many',IMAGE_CATEGORY_LINKS.people],
+			['people_swimming',IMAGE_CATEGORY_LINKS.people],
+			['people_group',IMAGE_CATEGORY_LINKS.people],
+			['people_show',IMAGE_CATEGORY_LINKS.people],
+			['people_hand',IMAGE_CATEGORY_LINKS.people],
+			['people_portrait',IMAGE_CATEGORY_LINKS.people],
 
-			['building_',''],
-			['building_doorwindow',''],
-			['building_stair',''],
-			['building_corner',''],
-			['building_pillar',''],
-			['building_street',''],
-			['building_arch',''],
-			['building_brickwall',''],
-			['building_church',''],
+			['building_',IMAGE_CATEGORY_LINKS.outdoor],
+			['building_doorwindow',IMAGE_CATEGORY_LINKS.outdoor],
+			['building_stair',IMAGE_CATEGORY_LINKS.outdoor],
+			['building_corner',IMAGE_CATEGORY_LINKS.outdoor],
+			['building_pillar',IMAGE_CATEGORY_LINKS.outdoor],
+			['building_street',IMAGE_CATEGORY_LINKS.outdoor],
+			['building_arch',IMAGE_CATEGORY_LINKS.outdoor],
+			['building_brickwall',IMAGE_CATEGORY_LINKS.outdoor],
+			['building_church',IMAGE_CATEGORY_LINKS.outdoor],
 
 			['abstract_',undefined],
 			['abstract_net',undefined],
@@ -100,40 +112,40 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 
 			['others_',undefined],
 
-			['indoor_',''],
-			['indoor_venue',''],
-			['indoor_marketstore',''],
-			['indoor_storewindow',''],
-			['indoor_room',''],
-			['indoor_churchwindow',''],
-			['indoor_court',''],
+			['indoor_',IMAGE_CATEGORY_LINKS.outdoor],
+			['indoor_venue',IMAGE_CATEGORY_LINKS.outdoor],
+			['indoor_marketstore',IMAGE_CATEGORY_LINKS.outdoor],
+			['indoor_storewindow',IMAGE_CATEGORY_LINKS.outdoor],
+			['indoor_room',IMAGE_CATEGORY_LINKS.outdoor],
+			['indoor_churchwindow',IMAGE_CATEGORY_LINKS.outdoor],
+			['indoor_court',IMAGE_CATEGORY_LINKS.outdoor],
 
-			['dark_',''],
-			['dark_fire',''],
-			['dark_fireworks',''],
-			['dark_ligthindark',''],
+			['dark_',IMAGE_CATEGORY_LINKS.outdoor],
+			['dark_fire',IMAGE_CATEGORY_LINKS.outdoor],
+			['dark_fireworks',IMAGE_CATEGORY_LINKS.outdoor],
+			['dark_ligthindark',IMAGE_CATEGORY_LINKS.outdoor],
 
-			['sky_',''],
-			['sky_rainbow',''],
-			['sky_object',''],
-			['sky_cloud',''],
-			['sky_sun',''],
+			['sky_',IMAGE_CATEGORY_LINKS.outdoor],
+			['sky_rainbow',IMAGE_CATEGORY_LINKS.outdoor],
+			['sky_object',IMAGE_CATEGORY_LINKS.outdoor],
+			['sky_cloud',IMAGE_CATEGORY_LINKS.outdoor],
+			['sky_sun',IMAGE_CATEGORY_LINKS.outdoor],
 
-			['outdoor_',''],
-			['outdoor_field',''],
-			['outdoor_house',''],
-			['outdoor_stonerock',''],
-			['outdoor_swimmingpool',''],
-			['outdoor_waterside',''],
-			['outdoor_street',''],
-			['outdoor_oceanbeach',''],
-			['outdoor_grass',''],
-			['outdoor_road',''],
-			['outdoor_city',''],
-			['outdoor_water',''],
-			['outdoor_mountain',''],
-			['outdoor_playground',''],
-			['outdoor_railway',''],
+			['outdoor_',IMAGE_CATEGORY_LINKS.outdoor],
+			['outdoor_field',IMAGE_CATEGORY_LINKS.outdoor],
+			['outdoor_house',IMAGE_CATEGORY_LINKS.outdoor],
+			['outdoor_stonerock',IMAGE_CATEGORY_LINKS.outdoor],
+			['outdoor_swimmingpool',IMAGE_CATEGORY_LINKS.outdoor],
+			['outdoor_waterside',IMAGE_CATEGORY_LINKS.outdoor],
+			['outdoor_street',IMAGE_CATEGORY_LINKS.outdoor],
+			['outdoor_oceanbeach',IMAGE_CATEGORY_LINKS.outdoor],
+			['outdoor_grass',IMAGE_CATEGORY_LINKS.outdoor],
+			['outdoor_road',IMAGE_CATEGORY_LINKS.outdoor],
+			['outdoor_city',IMAGE_CATEGORY_LINKS.outdoor],
+			['outdoor_water',IMAGE_CATEGORY_LINKS.outdoor],
+			['outdoor_mountain',IMAGE_CATEGORY_LINKS.outdoor],
+			['outdoor_playground',IMAGE_CATEGORY_LINKS.outdoor],
+			['outdoor_railway',IMAGE_CATEGORY_LINKS.outdoor],
 		]);
 	
 		var translatorToken = {
@@ -560,19 +572,18 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 				var confidence = getImageDescriptionConfidence(response.description);
 				if(confidence >= 0.80){
 					//Good confidence on description, probably an useful one.
-					console.log("Good confidence on description, probably an useful one. "+confidence);
-					console.log(response);		
+					// console.log("Good confidence on description, probably an useful one. "+confidence);
+					// console.log(response);		
 					prepareToTranslate(response);
 					setTextForInfoProgress(infoProgressMessages.standard);				
 				}else{
 					//Not so good confidence, try to help the user on describing the image.					
-					console.log("Not so good... "+confidence);
-					console.log(response);
+					// console.log("Not so good... "+confidence);
+					// console.log(response);
 					setTextForInfoProgress(infoProgressMessages.help);		
 				}
-				findCategoryInfoOrInteractWithUser(response.categories);							
+				findCategoryInfoOrInteractWithUser(response);							
 			}).fail(function (jqXHR, textStatus, errorThrown) {
-				console.log(textStatus + ' - ' + errorThrown);
 				setTextForInfoProgress(infoProgressMessages.error + ' ('+errorThrown+')');
 			}).always(function () {
 				loader.hide();
@@ -596,25 +607,59 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 		/**
 		 * Verify if there are categories from the response
 		 * and show a link to the appropriated section on help page.
-		 * Otherwise, interact to obtain the appropriated section.
-		 * @param {Array} categories 
+		 * Otherwise, interact to obtain the appropriated category.
+		 * @param {*} response 
 		 */
-		function findCategoryInfoOrInteractWithUser(categories){			
-			if(categories){
-				var category = getMostRelevantCategoryFromImage(categories);
-				var message = infoProgressMessages.byCategory(category.name);
-				if(message){ //category message is defined
-					setTextForInfoProgress(message, true);
-				}else{ //otherwise it wil need interaction with the user
-					setTextForInfoProgress(infoProgressMessages.helpChatbot, true);
-					$(".cke_dialog_ui_vbox_child > #chatbot_wrapper").parent().css("display","block");
+		function findCategoryInfoOrInteractWithUser(response){			
+			if(response.categories){
+				var category = getMostRelevantCategoryFromImage(response.categories);
+				var categoryMessage = infoProgressMessages.byCategory(category.name);
+				if(categoryMessage){ //category message is defined
+					setTextForInfoProgress(categoryMessage, true);
+				}else{ //try to extract category from tags
+					findCategoryInfoByTagsOrInteractWithUser(response.description.tags);									
 				}				
-			}else{
-				//algoritmo para pedir ajuda ao usuário...
-				setTextForInfoProgress(infoProgressMessages.helpChatbot, true);
-				$(".cke_dialog_ui_vbox_child > #chatbot_wrapper").parent().css("display","block");
-				console.log("activate chatbot");
+			}else{				
+				activateChatBot();		
 			}
+		}
+
+		/**
+		 * Verify if there are tags from response to help on finding image category.
+		 * Otherwise, interact to obtain the appropriated category.
+		 * @param {*} tags 
+		 */
+		function findCategoryInfoByTagsOrInteractWithUser(tags){
+			var categoryFound = false;			
+			if(!categoryFound && checkTags(tags, ['map'])){ // probably an image of a map
+				setTextForInfoProgress(IMAGE_CATEGORY_LINKS.abstract_map, true);
+				categoryFound = true;
+			}
+			if(!categoryFound && checkTags(tags, 
+				['tree','plant','outdoor','wood','forest','water',
+				 'nature','waterfall','rock','grass','building','house','church'])){
+				setTextForInfoProgress(IMAGE_CATEGORY_LINKS.outdoor, true);
+				categoryFound = true;
+			}
+			if(!categoryFound && checkTags(tags, ['drawing','text','white','book'])){
+				setTextForInfoProgress(IMAGE_CATEGORY_LINKS.text, true);
+				categoryFound = true;
+			}
+			//otherwise it will need interaction with the user
+			if(!categoryFound){
+				activateChatBot();
+			}
+		}
+
+		function activateChatBot(){
+			setTextForInfoProgress(infoProgressMessages.helpChatbot, true);
+			$(".cke_dialog_ui_vbox_child > #chatbot_wrapper").parent().css("display","block");	
+		}
+
+		function checkTags(tags,array){
+			return array.some(function(tag){				
+				return tags.indexOf(tag) >= 0;
+			})
 		}
 	
 		function translateTextFromEnglishToPortuguese(text) {
@@ -753,7 +798,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 				});
 
 				/* Hiddens the chatbot input*/
-				$(".cke_dialog_ui_vbox_child > #chatbot_wrapper").parent().css("display","none");
+				$(".cke_dialog_ui_vbox_child > #chatbot_wrapper").parent().css("display","none");				
 				/* Loads chatbot configuration */
 				CKEDITOR.scriptLoader.load(CKEDITOR.getUrl('plugins/base64image/libs/js/chatbot.config.js'));
 			},
@@ -764,6 +809,8 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 
 				/* Hiddens the chatbot input*/
 				$(".cke_dialog_ui_vbox_child > #chatbot_wrapper").parent().css("display","none");
+				/* Cleans chatbot history */
+				$("#chatBotHistory").html("");
 	
 				t = this, orgWidth = null, orgHeight = null, imgScal = 1, lock = true;
 	
