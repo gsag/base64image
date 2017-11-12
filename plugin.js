@@ -11,6 +11,8 @@ CKEDITOR.plugins.add("base64image", {
     init	: 	function(editor){
 					var pluginName = 'base64imageDialog';
 					CKEDITOR.document.appendStyleSheet(CKEDITOR.getUrl(this.path + 'styles/dialog.css'));
+					//CKEDITOR.document.appendStyleSheet(CKEDITOR.getUrl(this.path + 'libs/css/chatbot.min.css'));
+					//CKEDITOR.scriptLoader.load(CKEDITOR.getUrl(this.path + 'libs/js/chatbot.min.js'));									
 					
 					editor.ui.addButton("base64image", {
 						label: editor.lang.common.image,

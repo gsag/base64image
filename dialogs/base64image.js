@@ -5,17 +5,17 @@
 
 // Global Constant needed to share links with chatbot configuration
 var IMAGE_CATEGORY_LINKS = {
-	object: '<a href="/editor/recomendacoes/imagem#imagens-informativas-exemplo-objetos" target="_blank">Veja dicas sobre como descrever objetos (link para nova página)</a>',
-	animal: '<a href="/editor/recomendacoes/imagem#imagens-informativas-exemplo-animais" target="_blank">Veja dicas sobre como descrever animais (link para nova página)</a>',
-	text: '<a href="/editor/recomendacoes/imagem#imagens-texto" target="_blank">Veja dicas sobre como descrever imagens de texto (link para nova página)</a>',
-	text_cartoon: '<a href="/editor/recomendacoes/imagem#imagens-texto-exemplo-cartuns-charges" target="_blank">Veja dicas sobre como descrever charges e cartuns (link para nova página)</a>',
-	text_comics: '<a href="/editor/recomendacoes/imagem#imagens-texto-exemplo-quadros" target="_blank">Veja dicas sobre como descrever tiras cômicas (link para nova página)</a>',
-	text_table: '<a href="/editor/recomendacoes/imagem#imagens-texto-exemplo-tabelas" target="_blank">Veja dicas sobre como descrever tabelas (link para nova página)</a>',
-	food: '<a href="/editor/recomendacoes/imagem#imagens-informativas-exemplo-alimentos" target="_blank">Veja dicas sobre como descrever alimentos (link para nova página)</a>',
-	people: '<a href="/editor/recomendacoes/imagem#imagens-informativas-exemplo-pessoas" target="_blank">Veja dicas sobre como descrever pessoas (link para nova página)</a>',
-	outdoor: '<a href="/editor/recomendacoes/imagem#imagens-informativas-exemplo-construcoes" target="_blank">Veja dicas sobre como descrever construções / imagens ao ar livre </br>(link para nova página)</a>',
-	abstract_map: '<a href="/editor/recomendacoes/imagem#imagens-complexas-exemplo-mapas" target="_blank">Veja dicas sobre como descrever mapas (link para nova página)</a>',
-	abstract_diagram: '<a href="/editor/recomendacoes/imagem#imagens-complexas-exemplo-diagramas" target="_blank">Veja dicas sobre como descrever diagramas (link para nova página)</a>'
+	object: '<a href="/editor/recomendacoes/imagem#imagens-informativas-exemplo-objetos" target="_blank">Clique aqui e veja dicas sobre como descrever objetos</a>',
+	animal: '<a href="/editor/recomendacoes/imagem#imagens-informativas-exemplo-animais" target="_blank">Clique aqui e veja dicas sobre como descrever animais</a>',
+	text: '<a href="/editor/recomendacoes/imagem#imagens-texto" target="_blank">Clique aqui e veja dicas sobre como descrever imagens de texto</a>',
+	text_cartoon: '<a href="/editor/recomendacoes/imagem#imagens-texto-exemplo-cartuns-charges" target="_blank">Clique aqui e veja dicas sobre como descrever charges e cartuns</a>',
+	text_comics: '<a href="/editor/recomendacoes/imagem#imagens-texto-exemplo-quadros" target="_blank">Clique aqui e veja dicas sobre como descrever tiras cômicas</a>',
+	text_table: '<a href="/editor/recomendacoes/imagem#imagens-texto-exemplo-tabelas" target="_blank">Clique aqui e veja dicas sobre como descrever tabelas</a>',
+	food: '<a href="/editor/recomendacoes/imagem#imagens-informativas-exemplo-alimentos" target="_blank">Clique aqui e veja dicas sobre como descrever alimentos</a>',
+	people: '<a href="/editor/recomendacoes/imagem#imagens-informativas-exemplo-pessoas" target="_blank">Clique aqui e veja dicas sobre como descrever pessoas</a>',
+	outdoor: '<a href="/editor/recomendacoes/imagem#imagens-informativas-exemplo-construcoes" target="_blank">Clique aqui e veja dicas sobre como descrever imagens ao ar livre</a>',
+	abstract_map: '<a href="/editor/recomendacoes/imagem#imagens-complexas-exemplo-mapas" target="_blank">Clique aqui e veja dicas sobre como descrever mapas</a>',
+	abstract_diagram: '<a href="/editor/recomendacoes/imagem#imagens-complexas-exemplo-diagramas" target="_blank">Clique aqui e veja dicas sobre como descrever diagramas</a>'
 }
 
 CKEDITOR.dialog.add("base64imageDialog", function (editor) {
@@ -30,11 +30,14 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 			empty: "",
 			standard: "Gostaria de melhorar a descrição inicial gerada? </br>",
 			help: "O-oh... Não foi possível gerar uma descrição inicial para essa imagem. </br>",
-			uploading: "Tentando gerar texto alternativo para a imagem...",
+			uploading: "Tentando gerar texto alternativo para a imagem... Aguarde um instante.",
+			description: "A descrição inicial gerada para essa imagem foi: </br>",
 			editing: "Gostaria de melhorar a descrição desta imagem? </br>"+ 
-			"<a href=\'/editor/recomendacoes/imagem\' target=\'_blank\'>Veja algumas dicas e recomendações para descrições (link para nova página)</a>",
+			"<a href=\'/editor/recomendacoes/imagem\' target=\'_blank\'>Clique aqui e veja algumas dicas e recomendações para descrições de imagens</a>",
 			error: "Houve um erro ao obter a descrição da imagem.",
-			helpChatbot: "Para te ajudar a criar uma descrição ou melhorar a existente, é preciso descobrir </br> em qual categoria essa imagem se encaixa...",
+			helpChatbot: "Para te ajudar a criar uma descrição ou melhorar a existente, </br> é preciso descobrir em qual categoria essa imagem se encaixa...",
+			helpNoCategory: "<a href=\'/editor/recomendacoes/imagem\' target=\'_blank\'>Clique aqui e veja algumas dicas e recomendações para descrições de imagens</a>",
+			standardCategoryPattern: 'Clique no(s) link(s) abaixo e veja dicas sobre como descrever imagens de: <br/>',
 			byCategory: function(category){return imageCategoryMapping.get(category)}
 		}
 		
@@ -145,7 +148,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 			['outdoor_water',IMAGE_CATEGORY_LINKS.outdoor],
 			['outdoor_mountain',IMAGE_CATEGORY_LINKS.outdoor],
 			['outdoor_playground',IMAGE_CATEGORY_LINKS.outdoor],
-			['outdoor_railway',IMAGE_CATEGORY_LINKS.outdoor],
+			['outdoor_railway',IMAGE_CATEGORY_LINKS.outdoor]
 		]);
 	
 		var translatorToken = {
@@ -247,8 +250,8 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 						processAlternativeTextFromUploadedImage(urlI.getValue(), src);
 					} else {
 						fadeElementsAfterUpload();
-						setTextForInfoProgress(infoProgressMessages.editing);
-					}
+						setTextForInfoProgress(infoProgressMessages.editing);		
+					}					
 				}
 	
 			} else if (fsupport) {
@@ -279,8 +282,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 							} else {
 								fadeElementsAfterUpload();
 								setTextForInfoProgress(infoProgressMessages.editing);
-							}
-	
+							}	
 						};
 					})(n.files[0]);
 					fr.onerror = function () { imgPreview.getElement().setHtml(""); };
@@ -393,7 +395,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 							id: "altcheckbox",
 							style: "margin: 2.5px 0 2.5px 0",
 							label: editor.lang.base64image.altCheckbox,
-							default: "checked"
+							'default': "checked"
 						}
 					]
 				},
@@ -401,7 +403,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 					type: "html",
 					id: "preview",
 					html: new CKEDITOR.template("<div style=\"text-align:center;\"></div>").output()
-				},
+				},				
 				{
 					type: "html",
 					id: "altprogress",
@@ -410,35 +412,68 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 													"<i class='alt-progress-loader'/></p>" +
 												"</section>").output()
 				},
-				{
-					type: "html",
-					id: "chatbot",					
-					html: new CKEDITOR.template(
-						'<div id="chatbot_wrapper">'+
-							'<label class="cke_dialog_ui_labeled_label" for="humanInput">'+
-							'Na caixa de texto abaixo, digite algo que ajude a identificar a categoria da imagem ou </br>'+
-							'dê um duplo clique no campo para ver as opções. (Para enviar use <strong>shift + enter</strong>)'+
-							'</label>'+
-							'</br>'+
-							'<input id="humanInput" type="text" class="cke_dialog_ui_input_text"'+ 
-								'placeholder="Para enviar a opção selecionada use shift + enter."/>'+						
-							'<div id="chatBot">'+
-								'<div id="chatBotThinkingIndicator"></div>'+
-								'<div id="chatBotHistory"></div>'+
-							'</div>'+
-						'</div>'
-					).output()
-				},
+				// {
+				// 	type: "html",
+				// 	id: "chatbot",					
+				// 	html: new CKEDITOR.template(
+				// 		'<div id="chatbot_wrapper">'+
+				// 			'<label for="chatBot">Histórico de mensagens</label>'+
+				// 			'<div id="chatBot">'+
+				// 				'<div id="chatBotThinkingIndicator"></div>'+								
+				// 				'<div id="chatBotHistory"></div>'+
+				// 			'</div>'+
+				// 			'<div id="chatBotInput">'+						
+				// 				'</br>'+	
+				// 				'<div class="input-group">'+
+				// 					'<span class="input-group-addon" id="addon">'+
+				// 						'<a tabindex="0" id="popoverImageCategory" data-toggle="popover" title="Ajuda sobre categorias de imagens" role="button"'+ 
+				// 						'data-content="Algumas categorias que podem te ajudar: animal, comida, bebida, pessoas, construções, natureza, charge, cartum, tira cômica, quadrinhos, tabela, mapa, diagrama..."'+
+				// 						'data-container="#popoverImageCategory" data-html="true">'+
+				// 							'<i class="fa fa-question-circle fa-lg" aria-hidden="true"'+
+				// 							'style="font: normal normal normal 14px/1 FontAwesome !important;'+
+				// 							'font-size: inherit !important; cursor:pointer;"></i>'+
+				// 						'</a>'+
+				// 					'</span>'+						  							
+				// 					'<input id="humanInput" type="text" class="cke_dialog_ui_input_text form-control"'+ 
+				// 					'placeholder="Digite palavras que identifiquem a categoria dessa imagem"/>'+
+				// 					'<span class="input-group-btn">'+
+				// 						'<button id="btnChatBotInputHumanText" class="btn" type="button"><strong>Enviar</strong></button>'+
+				// 				  	'</span>'+
+				// 				'</div>'+								
+				// 				'<label class="cke_dialog_ui_labeled_label" for="humanInput">'+
+				// 				'Na caixa de texto acima, digite algo que ajude a identificar a categoria da imagem.'+
+				// 				'</label>'+
+				// 			'</div>'+
+				// 		'</div>'
+				// 	).output()
+				// },
 				{
 					type: "text",
 					id: "alt",
-					label: editor.lang.base64image.alt + ': (0/' + altTextCharLimit + ')',
-					maxLength: altTextCharLimit
+					labelStyle: "font-weight: bold",
+					label: editor.lang.base64image.alt + '*: (0/' + altTextCharLimit + ')',
+					maxLength: altTextCharLimit,
+					validate: function() {
+						if ( !this.getValue() ) {
+							this.getInputElement().setStyle("border-color", "#d9534f");
+							return false;
+						}else{
+							this.getInputElement().setStyle("border-color", "#aeb3b9");	
+							return true;
+						}
+					}
 				},
 				{
 					type: "textarea",
 					id: "alt_long_desc",
-					label: "Descrição longa: (Opcional)"
+					label: "Descrição longa: (Opcional)"+
+					'<a tabindex="0" id="labelLongDesc" data-toggle="popover" title="Descrição Longa" role="button"'+ 
+					'data-content="A <strong>descrição longa</strong> pode ser utilizada quando o espaço de 100 caracteres no texto alternativo for insuficiente para descrever a imagem. Assim, a descrição longa é um elemento <strong>opcional</strong> e deve ser utilizado em conjunto com o texto alternativo. Lembrando que não deve haver redundância entre eles. <br/> <a href=\'/editor/recomendacoes/imagem\' style=\'color:blue;text-decoration:underline;\' target=\'_blank\'>Clique aqui e veja algumas dicas e </br> recomendações para descrições de imagens</a>"'+
+					'data-container="#labelLongDesc" data-html="true">'+													
+						'<i class="fa fa-question-circle" aria-hidden="true"'+ 
+						'style="font: normal normal normal 14px/1 FontAwesome !important; font-size: inherit !important;'+
+						'margin-left:5px; cursor:pointer;"></i>'+
+					'</a>'
 				}
 			];
 	
@@ -479,7 +514,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 							id: "altcheckbox",
 							style: "margin: 2.5px 0 2.5px 0",
 							label: editor.lang.base64image.altCheckbox,
-							default: "checked"
+							'default': "checked"
 						}
 					]
 				},
@@ -497,38 +532,37 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 												"</section>").output()
 				},
 				{
-					type: "html",
-					id: "chatbot",					
-					html: new CKEDITOR.template(
-						'<div id="chatbot_wrapper">'+
-							'<label class="cke_dialog_ui_labeled_label" for="humanInput">'+
-							'Na caixa de texto abaixo, digite algo que ajude a identificar a categoria da imagem ou </br>'+
-							'dê um duplo clique no campo para ver as opções. (Para enviar use <strong>shift + enter</strong>)'+
-							'</label>'+
-							'</br>'+
-							'<input id="humanInput" type="text" class="cke_dialog_ui_input_text"'+ 
-								'placeholder="Para enviar a opção selecionada use shift + enter."/>'+						
-							'<div id="chatBot">'+
-								'<div id="chatBotThinkingIndicator"></div>'+
-								'<div id="chatBotHistory"></div>'+
-							'</div>'+
-						'</div>'
-					).output()
-				},
-				{
 					type: "text",
 					id: "alt",
-					label: editor.lang.base64image.alt + ':',
-					maxLength: altTextCharLimit
+					labelStyle: "font-weight: bold",
+					label: editor.lang.base64image.alt + '*: (0/' + altTextCharLimit + ')',
+					maxLength: altTextCharLimit,
+					validate: function() {
+						if ( !this.getValue() ) {
+							this.getInputElement().setStyle("border-color", "#d9534f");
+							console.log(this.getInputElement());													
+							return false;
+						}else{
+							this.getInputElement().setStyle("border-color", "#aeb3b9");	
+							return true;
+						}
+					}
 				},
 				{
 					type: "textarea",
 					id: "alt_long_desc",
-					label: "Descrição longa: (Opcional)"
+					label: "Descrição longa: (Opcional)"+
+					'<a tabindex="0" id="labelLongDesc" data-toggle="popover" title="Descrição Longa" role="button"'+ 
+					'data-content="A <strong>descrição longa</strong> pode ser utilizada quando o espaço de 100 caracteres no texto alternativo for insuficiente para descrever a imagem. Assim, a descrição longa é um elemento <strong>opcional</strong> e deve ser utilizado em conjunto com o texto alternativo. Lembrando que não deve haver redundância entre eles. <br/> <a href=\'/editor/recomendacoes/imagem\' style=\'color:blue;text-decoration:underline;\' target=\'_blank\'>Clique aqui e veja algumas dicas e </br> recomendações para descrições de imagens</a>"'+
+					'data-container="#labelLongDesc" data-html="true">'+													
+						'<i class="fa fa-question-circle" aria-hidden="true"'+ 
+						'style="font: normal normal normal 14px/1 FontAwesome !important; font-size: inherit !important;'+
+						'margin-left:5px; cursor:pointer;"></i>'+
+					'</a>'
 				}
 			];
 		}
-	
+
 		function setTextForInfoProgress(text, append) {
 			var element = document.getElementById("infoprogress").firstChild;			
 			if(append){
@@ -543,7 +577,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 			var uriBase = "https://eastus2.api.cognitive.microsoft.com/vision/v1.0/analyze";
 			var params = {
 				"visualFeatures": "Categories,Description",
-				"language": "en",
+				"language": "en"
 			};
 			var contentType = null, dataToSend = null;
 			if (sourceType == 'url') {
@@ -555,7 +589,9 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 			}
 			setTextForInfoProgress(infoProgressMessages.uploading)
 			var loader = $(".alt-progress-loader");
-			loader.css("display", "inline-block");
+			loader.show();
+			setTextForInfoProgress(infoProgressMessages.uploading);
+			//CHATBOT.addChatEntry(infoProgressMessages.uploading, 'bot');		
 			$.ajax({
 				url: uriBase + "?" + $.param(params),
 				// Request headers.
@@ -570,19 +606,18 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 			}).done(function (response) {
 				fadeElementsAfterUpload();
 				var confidence = getImageDescriptionConfidence(response.description);
-				if(confidence >= 0.80){
+				if(confidence >= 0.75){
 					//Good confidence on description, probably an useful one.
-					// console.log("Good confidence on description, probably an useful one. "+confidence);
-					// console.log(response);		
-					prepareToTranslate(response);
-					setTextForInfoProgress(infoProgressMessages.standard);				
+					console.log("Good confidence on description, probably an useful one. "+confidence);
+					console.log(response);
+					prepareToTranslate(response);															
 				}else{
 					//Not so good confidence, try to help the user on describing the image.					
-					// console.log("Not so good... "+confidence);
-					// console.log(response);
-					setTextForInfoProgress(infoProgressMessages.help);		
-				}
-				findCategoryInfoOrInteractWithUser(response);							
+					console.log("Not so good... "+confidence);
+					console.log(response);
+					setTextForInfoProgress(infoProgressMessages.help);
+					findCategoryInfo(response);
+				}							
 			}).fail(function (jqXHR, textStatus, errorThrown) {
 				setTextForInfoProgress(infoProgressMessages.error + ' ('+errorThrown+')');
 			}).always(function () {
@@ -592,6 +627,124 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 
 		function getImageDescriptionConfidence(description){
 			return description.captions[0].confidence;
+		}		
+	
+		// Prepare token if necessary then translate the text from english to portuguese
+		function prepareToTranslate(response) {
+			var text = response.description.captions[0].text;
+			var descriptionResponse = response;
+			if (Date.now() > translatorToken.timeout || !translatorToken.timeout) {
+				var subscriptionKey = "88ec49004da348b68563a37d5cb8c31a";
+				var uriBase = "https://api.cognitive.microsoft.com/sts/v1.0/issueToken";
+				$.ajax({
+					url: uriBase,
+					beforeSend: function (xhrObj) {
+						xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
+					},
+					type: "POST",
+					data: {}
+				}).done(function (response) {
+					translatorToken.token = response;
+					translatorToken.timeout = Date.now() + 10 * 60 * 1000; //adds 10 minutes
+					translateTextFromEnglishToPortuguese(text, descriptionResponse);
+				});
+			}else{
+				translateTextFromEnglishToPortuguese(text, descriptionResponse);
+			}
+		}
+
+		// translate text and after that calls findCategory method
+		function translateTextFromEnglishToPortuguese(text, descriptionResponse) {
+			var uriBase = "https://api.microsofttranslator.com/V2/Ajax.svc/Translate";
+			var params = {
+				"text": text,
+				"from": "en",
+				"to": "pt",
+				"appId": "Bearer " + translatorToken.token
+			};
+			$.ajax({
+				url: uriBase + "?" + $.param(params),
+				type: "GET"
+			}).done(function (response) {				
+				//updateAltTextInputElementAndCounter(response.substring(1, response.length-1));
+				setTextForInfoProgress(infoProgressMessages.description+' '+response+'</br>'+infoProgressMessages.standard);
+				//CHATBOT.addChatEntry(infoProgressMessages.description+' '+response+'</br>'+infoProgressMessages.standard, 'bot');
+				findCategoryInfo(descriptionResponse);									
+			});	
+		}		
+
+		/**
+		 * Verify if there are categories from the response
+		 * and show a link to the appropriated section on help page.
+		 * Otherwise, interact to obtain the appropriated category.
+		 * @param {*} response 
+		 */
+		function findCategoryInfo(response){			
+			if(response.categories){
+				var category = getMostRelevantCategoryFromImage(response.categories);
+				var categoryMessage = infoProgressMessages.byCategory(category.name);
+				if(categoryMessage){ //category message is defined					
+					setTextForInfoProgress(categoryMessage, true);
+					//CHATBOT.addChatEntry(categoryMessage, 'bot');
+				}else{ //try to extract category from tags
+					findCategoryInfoByTags(response.description.tags);									
+				}				
+			}else{	//try to extract category from tags			
+				findCategoryInfoByTags(response.description.tags);		
+			}
+		}
+
+		/**
+		 * Verify if there are tags from response to help on finding image category.
+		 * Otherwise, interact to obtain the appropriated category.
+		 * @param {*} tags 
+		 */
+		function findCategoryInfoByTags(tags){	
+			var tagsTops;
+			if(tags.length>=6){
+				tagsTops = tags.slice(0,6);
+			}else{
+				tagsTops = tags.slice(0,tags.length);
+			}
+
+			var categoriesFromTags = [];
+			var textToRemove = 'Clique aqui e veja dicas sobre como descrever ';
+			
+			if(checkTags(tagsTops, ['map'])){ // probably an image of a map		
+				categoriesFromTags.push(removeTextFromString(IMAGE_CATEGORY_LINKS.abstract_map, textToRemove));				
+			}
+
+			if(checkTags(tagsTops, ['animal'])){				
+				categoriesFromTags.push(removeTextFromString(IMAGE_CATEGORY_LINKS.animal, textToRemove));							
+			}
+
+			if(checkTags(tagsTops, 
+				['tree','plant','outdoor','wood','forest','water','mountain',
+				 'nature','waterfall','rock','grass','building','house','church'])){
+					categoriesFromTags.push(
+						removeTextFromString(IMAGE_CATEGORY_LINKS.outdoor, textToRemove));
+			}
+
+			if(checkTags(tagsTops, ['drawing','text','white','book'])){				
+				categoriesFromTags.push(removeTextFromString(IMAGE_CATEGORY_LINKS.text,textToRemove));
+			}
+
+			if(categoriesFromTags.length == 0){				
+				setTextForInfoProgress(infoProgressMessages.helpNoCategory, true);
+			}else{
+				setTextForInfoProgress(infoProgressMessages.standardCategoryPattern, true);				
+				for(var i=0; i<categoriesFromTags.length; i++){
+					if(i == categoriesFromTags.length-1){
+						setTextForInfoProgress(categoriesFromTags[i]+'.', true);
+					}else{
+						setTextForInfoProgress(categoriesFromTags[i]+', ', true);
+					}					
+				}
+			}			
+		}
+
+		function removeTextFromString(original, toRemove){
+			return original.replace(toRemove,'');
 		}
 
 		function getMostRelevantCategoryFromImage(categories){
@@ -604,101 +757,16 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 			return relevant;
 		}
 
-		/**
-		 * Verify if there are categories from the response
-		 * and show a link to the appropriated section on help page.
-		 * Otherwise, interact to obtain the appropriated category.
-		 * @param {*} response 
-		 */
-		function findCategoryInfoOrInteractWithUser(response){			
-			if(response.categories){
-				var category = getMostRelevantCategoryFromImage(response.categories);
-				var categoryMessage = infoProgressMessages.byCategory(category.name);
-				if(categoryMessage){ //category message is defined
-					setTextForInfoProgress(categoryMessage, true);
-				}else{ //try to extract category from tags
-					findCategoryInfoByTagsOrInteractWithUser(response.description.tags);									
-				}				
-			}else{				
-				activateChatBot();		
-			}
-		}
-
-		/**
-		 * Verify if there are tags from response to help on finding image category.
-		 * Otherwise, interact to obtain the appropriated category.
-		 * @param {*} tags 
-		 */
-		function findCategoryInfoByTagsOrInteractWithUser(tags){
-			var categoryFound = false;			
-			if(!categoryFound && checkTags(tags, ['map'])){ // probably an image of a map
-				setTextForInfoProgress(IMAGE_CATEGORY_LINKS.abstract_map, true);
-				categoryFound = true;
-			}
-			if(!categoryFound && checkTags(tags, 
-				['tree','plant','outdoor','wood','forest','water',
-				 'nature','waterfall','rock','grass','building','house','church'])){
-				setTextForInfoProgress(IMAGE_CATEGORY_LINKS.outdoor, true);
-				categoryFound = true;
-			}
-			if(!categoryFound && checkTags(tags, ['drawing','text','white','book'])){
-				setTextForInfoProgress(IMAGE_CATEGORY_LINKS.text, true);
-				categoryFound = true;
-			}
-			//otherwise it will need interaction with the user
-			if(!categoryFound){
-				activateChatBot();
-			}
-		}
-
-		function activateChatBot(){
+		function activateChatBotHelp(){
+			//CHATBOT.addChatEntry(infoProgressMessages.helpChatbot, 'bot');
 			setTextForInfoProgress(infoProgressMessages.helpChatbot, true);
-			$(".cke_dialog_ui_vbox_child > #chatbot_wrapper").parent().css("display","block");	
+			showChatBotInput();
 		}
 
 		function checkTags(tags,array){
 			return array.some(function(tag){				
 				return tags.indexOf(tag) >= 0;
 			})
-		}
-	
-		function translateTextFromEnglishToPortuguese(text) {
-			var uriBase = "https://api.microsofttranslator.com/V2/Ajax.svc/Translate";
-			var params = {
-				"text": text,
-				"from": "en",
-				"to": "pt",
-				"appId": "Bearer " + translatorToken.token
-			};
-			$.ajax({
-				url: uriBase + "?" + $.param(params),
-				type: "GET",
-			}).done(function (response) {				
-				updateAltTextInputElementAndCounter(response.substring(1, response.length-1));				
-			});	
-		}
-	
-		// Prepare token if necessary then translate the text from english to portuguese
-		function prepareToTranslate(response) {
-			var text = response.description.captions[0].text;
-			if (Date.now() > translatorToken.timeout || !translatorToken.timeout) {
-				var subscriptionKey = "88ec49004da348b68563a37d5cb8c31a";
-				var uriBase = "https://api.cognitive.microsoft.com/sts/v1.0/issueToken";
-				$.ajax({
-					url: uriBase,
-					beforeSend: function (xhrObj) {
-						xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
-					},
-					type: "POST",
-					data: {},
-				}).done(function (response) {
-					translatorToken.token = response;
-					translatorToken.timeout = Date.now() + 10 * 60 * 1000; //adds 10 minutes
-					translateTextFromEnglishToPortuguese(text);
-				});
-			}else{
-				translateTextFromEnglishToPortuguese(text);
-			}
 		}
 	
 		function base64ToBlob(dataURL) {
@@ -742,21 +810,46 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 				.closest(".cke_dialog_ui_vbox_child")
 				.show();
 		}
+
+		function hideAlternativeTextElements(dialog){
+			dialog.getContentElement("tab-source","alt").getElement().hide();
+			dialog.getContentElement("tab-source","alt_long_desc").getElement().hide();
+		}
+
+		function showAlternativeTextElements(dialog){
+			dialog.getContentElement("tab-source","alt").getElement().show();
+			dialog.getContentElement("tab-source","alt_long_desc").getElement().show();
+		}
+
+		function hideChatBotInput(){
+			$("#chatBotInput").hide();
+		}
+
+		function showChatBotInput(){
+			$("#chatBotInput").show();
+		}
 	
 		function updateAltTextInputElementAndCounter(value) {
 			if (value) {
-				t.setValueOf("tab-source", "alt", value);
+				t.setValueOf("tab-source", "alt", value);				
 			}
 			var input = t.getContentElement("tab-source", "alt").getInputElement();
 			var label = document.querySelector('label[for="'+input.$.id+'"]');
 			var labelText = label.innerText.substring(0, label.innerText.indexOf(":"));
-			label.innerText = labelText + ": (" + t.getValueOf("tab-source", "alt").length + "/" + altTextCharLimit + ")";
+			label.innerHTML = labelText + ": (" + t.getValueOf("tab-source", "alt").length + "/" + altTextCharLimit + ")"
+			+ '<a tabindex="0" id="labelAlt" data-toggle="popover" title="Texto Alternativo" role="button"'+ 
+			'data-content="O <strong>texto alternativo</strong> é um atributo <strong>obrigatório</strong> em imagens que serve para se adicionar uma descrição breve, de até 100 caracteres, sobre ela. <br/> <a href=\'/editor/recomendacoes/imagem\' style=\'color:blue;text-decoration:underline;\' target=\'_blank\'>Clique aqui e veja algumas dicas e </br> recomendações para descrições de imagens</a>"'+
+			'data-container="#labelAlt" data-html="true">'+													
+				'<i class="fa fa-question-circle" aria-hidden="true"'+ 
+				'style="font: normal normal normal 14px/1 FontAwesome !important; font-size: inherit !important;'+
+				'margin-left:5px; cursor:pointer;"></i>'+
+			'</a>';
 		}
 	
 		/* Dialog */
 		return {
 			title: editor.lang.common.image,
-			minWidth: 450,
+			minWidth: 460,
 			minHeight: 180,
 			onLoad: function () {
 				t = this;
@@ -796,25 +889,35 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 				this.getContentElement("tab-source", "alt").getInputElement().on("keyup", function (event) {
 					updateAltTextInputElementAndCounter(event.value);
 				});
+				
+				// Event listener to chatbot input button
+				// $("#btnChatBotInputHumanText").on('click', function(){
+				// 	var input = $("#humanInput").val();
+				// 	if(input.length > 0){
+				// 		CHATBOT.addChatEntry(input,'human');
+				// 		CHATBOT.react(input);
+				// 	}					
+				// });
 
-				/* Hiddens the chatbot input*/
-				$(".cke_dialog_ui_vbox_child > #chatbot_wrapper").parent().css("display","none");				
-				/* Loads chatbot configuration */
-				CKEDITOR.scriptLoader.load(CKEDITOR.getUrl('plugins/base64image/libs/js/chatbot.config.js'));
+				/* Hidden chatBot input elements */
+				hideChatBotInput();	
+				/* Load chatbot configuration */
+				//CKEDITOR.scriptLoader.load(CKEDITOR.getUrl('plugins/base64image/libs/js/chatbot.config.js'));
 			},
 			onShow: function () {
 	
 				/* Remove preview */
 				imgPreview.getElement().setHtml("");
 
-				/* Hiddens the chatbot input*/
-				$(".cke_dialog_ui_vbox_child > #chatbot_wrapper").parent().css("display","none");
 				/* Cleans chatbot history */
 				$("#chatBotHistory").html("");
 	
 				t = this, orgWidth = null, orgHeight = null, imgScal = 1, lock = true;
 	
-				resetFadeElements();
+				resetFadeElements();	
+				
+				/* Hidden chatBot input elements */
+				hideChatBotInput();	
 	
 				/* selected image or null */
 				selectedImg = editor.getSelection();
@@ -830,8 +933,10 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 				if (selectedImg) {
 					//if selected image exists, hide upload elements
 					hideUploadElements();
-	
+
 					setTextForInfoProgress(infoProgressMessages.editing);
+	
+					CHATBOT.addChatEntry(infoProgressMessages.editing,'bot');					
 	
 					/* Set input values from selected image */
 					if (typeof (selectedImg.getAttribute("width")) == "string") orgWidth = selectedImg.getAttribute("width");
@@ -896,7 +1001,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 				} else {
 					resetFadeElements();
 					setTextForInfoProgress(infoProgressMessages.empty);
-					updateAltTextInputElementAndCounter();
+					updateAltTextInputElementAndCounter();								
 				}
 			},
 			onOk: function () {
@@ -999,6 +1104,9 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 	
 				/* Resize image */
 				if (editor.plugins.imageresize) editor.plugins.imageresize.resize(editor, newImg, 800, 800);
+			},
+			onCancel: function(){
+				t.getContentElement("tab-source", "alt").getInputElement().setStyle("border-color","#aeb3b9");
 			},
 	
 			/* Dialog form */

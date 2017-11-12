@@ -1,19 +1,14 @@
-(function(categoryLinks){
+var CHATBOT = function(categoryLinks){
     'use strict';
     var config = {
         botName: 'Resposta:',
         humanName: 'Você disse:',
         inputs: '#humanInput',
         inputCapabilityListing: true,
-        engines: [chatbotEngine()],
-        addChatEntryCallback: function(entryDiv, text, origin) {
-            var history = $("#chatBotHistory");
-            if(history.children().length > 2){
-                history.children()[2].remove();
-            }
-        }
+        engines: [chatbotEngine()]
     };
     ChatBot.init(config);
+    return ChatBot;
     
     function chatbotEngine() {    
         var capabilities = [            
@@ -34,7 +29,7 @@
                 ChatBot.thinking(false);
             },
             getCapabilities: function() {
-                return capabilities;
+                return [];
             },
             getSuggestUrl: function() {
                 return null;
@@ -44,8 +39,8 @@
 
     function queryAnswer(query){
         var answerMap = new Map([
-            ['(animal|animais|gato|felino|p[á,a]ssaro|ave|panda|urso|cavalo|c[ã,a]o|cachorro|canino|mam[í,i]fero)', categoryLinks.animal],
-            ['(objeto|escultura|est[á,a]tua|tela|celular|carro|[ô,o]nibus|transporte|trem|trem|metro|avi[ã,a]o|bicicleta)', categoryLinks.object],
+            ['(animal|animais|[g,r,p]ato|felino|p[á,a]ssaro|ave|panda|urso|cavalo|c[ã,a]o|cachorro|canino|mam[í,i]fero)', categoryLinks.animal],
+            ['(objeto|escultura|est[á,a]tua|tela|celular|carro|[ô,o]nibus|transporte|trem|trem|metro|avi[ã,a]o|bicicleta|autom[ó,o]ve)', categoryLinks.object],
             ['(charge|cartum|cartun|cartoon|desenho|ilustra[ç,c][ã,a]o)', categoryLinks.text_cartoon],
             ['(tira c[ô,o]mica|tira|tirinha|hist[ó,o]ria em quadrinho|quadrinho)',categoryLinks.text_comics],
             ['(comida|p[ã,a]o|grelha\w*|\w*burg\w*|pizza|fastfood|mercado\w*|alimenta\w*|bebida)', categoryLinks.food],
@@ -58,13 +53,17 @@
             ['(mapa|cartografia|relevo|mapeamento|continente)',categoryLinks.abstract_map],
             ['(diagrama|fluxograma|organograma|\w*grama|gr[á,a]fico)',categoryLinks.abstract_diagram]
         ]);
-        for(var key of answerMap.keys()){
-            if(query.match(new RegExp(key+'(.*?)', 'gi'))){
-                return answerMap.get(key);
+        var selectedValue = undefined;
+        answerMap.forEach(function(value, key) {
+            if(query.match(new RegExp(key+'(.*?)', 'gi'))){                                          
+                selectedValue = value;
+                return;              
             }
-        }
-        return 'Desculpe, nenhuma categoria com nome relacionado foi encontrada...' +
-               '<br><a href="/editor/recomendacoes/imagem" target="_blank\">'+
-               'Veja algumas dicas e recomendações para descrições (link para nova página)</a>'
+        }, answerMap);        
+        return (selectedValue) ? 
+            selectedValue :
+            'Desculpe, nenhuma categoria com nome relacionado foi encontrada...' +
+            '<br><a href="/editor/recomendacoes/imagem" target="_blank\">'+
+            'Veja algumas dicas e recomendações para descrições (link para nova página)</a>'
     }
-})(IMAGE_CATEGORY_LINKS || {});
+}(IMAGE_CATEGORY_LINKS || {});
