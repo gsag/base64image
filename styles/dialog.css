@@ -12,3 +12,6 @@
     color: blue;
     cursor: pointer;
 }
+#infoprogress > span > a:hover{
+    text-decoration: underline;
+}
