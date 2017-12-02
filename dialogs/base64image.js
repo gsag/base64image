@@ -455,10 +455,10 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 					maxLength: altTextCharLimit,
 					validate: function() {
 						if ( !this.getValue() ) {
-							this.getInputElement().setStyle("border-color", "#d9534f");
+							this.getInputElement().setStyle("border-color", "#d9534f");							
 							return false;
 						}else{
-							this.getInputElement().setStyle("border-color", "#aeb3b9");	
+							this.getInputElement().setStyle("border-color", "");	
 							return true;
 						}
 					}
@@ -543,7 +543,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 							console.log(this.getInputElement());													
 							return false;
 						}else{
-							this.getInputElement().setStyle("border-color", "#aeb3b9");	
+							this.getInputElement().setStyle("border-color", "");	
 							return true;
 						}
 					}
@@ -757,11 +757,11 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 			return relevant;
 		}
 
-		function activateChatBotHelp(){
-			//CHATBOT.addChatEntry(infoProgressMessages.helpChatbot, 'bot');
-			setTextForInfoProgress(infoProgressMessages.helpChatbot, true);
-			showChatBotInput();
-		}
+		// function activateChatBotHelp(){
+		// 	//CHATBOT.addChatEntry(infoProgressMessages.helpChatbot, 'bot');
+		// 	setTextForInfoProgress(infoProgressMessages.helpChatbot, true);
+		// 	showChatBotInput();
+		// }
 
 		function checkTags(tags,array){
 			return array.some(function(tag){				
@@ -821,13 +821,13 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 			dialog.getContentElement("tab-source","alt_long_desc").getElement().show();
 		}
 
-		function hideChatBotInput(){
-			$("#chatBotInput").hide();
-		}
+		// function hideChatBotInput(){
+		// 	$("#chatBotInput").hide();
+		// }
 
-		function showChatBotInput(){
-			$("#chatBotInput").show();
-		}
+		// function showChatBotInput(){
+		// 	$("#chatBotInput").show();
+		// }
 	
 		function updateAltTextInputElementAndCounter(value) {
 			if (value) {
@@ -900,7 +900,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 				// });
 
 				/* Hidden chatBot input elements */
-				hideChatBotInput();	
+				//hideChatBotInput();	
 				/* Load chatbot configuration */
 				//CKEDITOR.scriptLoader.load(CKEDITOR.getUrl('plugins/base64image/libs/js/chatbot.config.js'));
 			},
@@ -910,14 +910,14 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 				imgPreview.getElement().setHtml("");
 
 				/* Cleans chatbot history */
-				$("#chatBotHistory").html("");
+				//$("#chatBotHistory").html("");
 	
 				t = this, orgWidth = null, orgHeight = null, imgScal = 1, lock = true;
 	
 				resetFadeElements();	
 				
 				/* Hidden chatBot input elements */
-				hideChatBotInput();	
+				//hideChatBotInput();	
 	
 				/* selected image or null */
 				selectedImg = editor.getSelection();
@@ -936,7 +936,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 
 					setTextForInfoProgress(infoProgressMessages.editing);
 	
-					CHATBOT.addChatEntry(infoProgressMessages.editing,'bot');					
+					//CHATBOT.addChatEntry(infoProgressMessages.editing,'bot');					
 	
 					/* Set input values from selected image */
 					if (typeof (selectedImg.getAttribute("width")) == "string") orgWidth = selectedImg.getAttribute("width");
@@ -1106,7 +1106,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 				if (editor.plugins.imageresize) editor.plugins.imageresize.resize(editor, newImg, 800, 800);
 			},
 			onCancel: function(){
-				t.getContentElement("tab-source", "alt").getInputElement().setStyle("border-color","#aeb3b9");
+				t.getContentElement("tab-source", "alt").getInputElement().setStyle("border-color","");
 			},
 	
 			/* Dialog form */
