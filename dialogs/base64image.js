@@ -609,12 +609,12 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 				if(confidence >= 0.75){
 					//Good confidence on description, probably an useful one.
 					// console.log("Good confidence on description, probably an useful one. "+confidence);
-					console.log(response);
+					//console.log(response);
 					prepareToTranslate(response);															
 				}else{
 					//Not so good confidence, try to help the user on describing the image.					
 					// console.log("Not so good... "+confidence);
-					console.log(response);
+					//console.log(response);
 					setTextForInfoProgress(infoProgressMessages.help);
 					findCategoryInfo(response);
 				}							
