@@ -35,7 +35,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 			editing: "Gostaria de melhorar a descrição desta imagem? </br>"+ 
 			"<a href=\'/editor/recomendacoes/imagem\' target=\'_blank\'>Clique aqui e veja algumas dicas e recomendações para descrições de imagens</a>",
 			error: "Houve um erro ao obter a descrição da imagem.",
-			helpChatbot: "Para te ajudar a criar uma descrição ou melhorar a existente, </br> é preciso descobrir em qual categoria essa imagem se encaixa...",
+			helpChatbot: "Gostaria de ver dicas para a descrição de sua imagem? </br> Para começar, clique no ícone de chat no canto inferior direito.",
 			helpNoCategory: "<a href=\'/editor/recomendacoes/imagem\' target=\'_blank\'>Clique aqui e veja algumas dicas e recomendações para descrições de imagens</a>",
 			standardCategoryPattern: 'Clique no(s) link(s) abaixo e veja dicas sobre como descrever imagens de: <br/>',
 			byCategory: function(category){return imageCategoryMapping.get(category)}
@@ -250,7 +250,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 						processAlternativeTextFromUploadedImage(urlI.getValue(), src);
 					} else {
 						fadeElementsAfterUpload();
-						setTextForInfoProgress(infoProgressMessages.editing);		
+						setTextForInfoProgress(infoProgressMessages.helpChatbot);		
 					}					
 				}
 	
@@ -281,7 +281,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 								processAlternativeTextFromUploadedImage(e.target.result, 'file');
 							} else {
 								fadeElementsAfterUpload();
-								setTextForInfoProgress(infoProgressMessages.editing);
+								setTextForInfoProgress(infoProgressMessages.helpChatbot);
 							}	
 						};
 					})(n.files[0]);
@@ -388,14 +388,14 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 				{
 					type: "hbox",
 					widths: ["70px"],
-					className: "fadeAfterUpload",
+					className: "fadeAfterUpload hidden",
 					children: [
 						{
 							type: "checkbox",
 							id: "altcheckbox",
 							style: "margin: 2.5px 0 2.5px 0",
 							label: editor.lang.base64image.altCheckbox,
-							'default': "checked"
+							'default': ""
 						}
 					]
 				},
@@ -609,12 +609,12 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 				if(confidence >= 0.75){
 					//Good confidence on description, probably an useful one.
 					// console.log("Good confidence on description, probably an useful one. "+confidence);
-					// console.log(response);
+					console.log(response);
 					prepareToTranslate(response);															
 				}else{
 					//Not so good confidence, try to help the user on describing the image.					
 					// console.log("Not so good... "+confidence);
-					// console.log(response);
+					console.log(response);
 					setTextForInfoProgress(infoProgressMessages.help);
 					findCategoryInfo(response);
 				}							
