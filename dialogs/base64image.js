@@ -15,7 +15,8 @@ var IMAGE_CATEGORY_LINKS = {
 	people: '<a href="/editor/recomendacoes/imagem#imagens-informativas-exemplo-pessoas" target="_blank">Clique aqui e veja dicas sobre como descrever pessoas</a>',
 	outdoor: '<a href="/editor/recomendacoes/imagem#imagens-informativas-exemplo-construcoes" target="_blank">Clique aqui e veja dicas sobre como descrever imagens ao ar livre</a>',
 	abstract_map: '<a href="/editor/recomendacoes/imagem#imagens-complexas-exemplo-mapas" target="_blank">Clique aqui e veja dicas sobre como descrever mapas</a>',
-	abstract_diagram: '<a href="/editor/recomendacoes/imagem#imagens-complexas-exemplo-diagramas" target="_blank">Clique aqui e veja dicas sobre como descrever diagramas</a>'
+	abstract_diagram: '<a href="/editor/recomendacoes/imagem#imagens-complexas-exemplo-diagramas" target="_blank">Clique aqui e veja dicas sobre como descrever diagramas</a>',
+	abstract_chart: '<a href="/editor/recomendacoes/imagem#imagens-complexas-exemplo-graficos" target="_blank">Clique aqui e veja dicas sobre como descrever gráficos</a>'
 }
 
 CKEDITOR.dialog.add("base64imageDialog", function (editor) {
@@ -719,10 +720,18 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 			}
 
 			if(checkTags(tagsTops, 
-				['tree','plant','outdoor','wood','forest','water','mountain',
+				['tree','plant','outdoor','wood','forest','mountain',
 				 'nature','waterfall','rock','grass','building','house','church'])){
 					categoriesFromTags.push(
 						removeTextFromString(IMAGE_CATEGORY_LINKS.outdoor, textToRemove));
+			}
+
+			if(checkTags(tagsTops, ['people', 'person'])){				
+				categoriesFromTags.push(removeTextFromString(IMAGE_CATEGORY_LINKS.people,textToRemove));
+			}
+
+			if(checkTags(tagsTops, ['table'])){				
+				categoriesFromTags.push(removeTextFromString(IMAGE_CATEGORY_LINKS.abstract_chart,textToRemove));
 			}
 
 			if(checkTags(tagsTops, ['drawing','text','white','book'])){				
