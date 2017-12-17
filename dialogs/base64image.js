@@ -35,7 +35,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 			editing: "Gostaria de melhorar a descrição desta imagem? </br>"+ 
 			"<a href=\'/editor/recomendacoes/imagem\' target=\'_blank\'>Clique aqui e veja algumas dicas e recomendações para descrições de imagens</a>",
 			error: "Houve um erro ao obter a descrição da imagem.",
-			helpChatbot: "Gostaria de ver dicas para a descrição de sua imagem? </br> Para começar, clique no ícone de chat no canto inferior direito.",
+			helpChatbot: "Gostaria de ver dicas para a descrição de sua imagem? </br> Para começar, clique no ícone de chat <span class='fb-messenger'></span> no canto inferior direito.",
 			helpNoCategory: "<a href=\'/editor/recomendacoes/imagem\' target=\'_blank\'>Clique aqui e veja algumas dicas e recomendações para descrições de imagens</a>",
 			standardCategoryPattern: 'Clique no(s) link(s) abaixo e veja dicas sobre como descrever imagens de: <br/>',
 			byCategory: function(category){return imageCategoryMapping.get(category)}
@@ -250,7 +250,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 						processAlternativeTextFromUploadedImage(urlI.getValue(), src);
 					} else {
 						fadeElementsAfterUpload();
-						setTextForInfoProgress(infoProgressMessages.helpChatbot);		
+						setTextForInfoProgress(infoProgressMessages.helpChatbot);	
 					}					
 				}
 	
@@ -934,7 +934,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 					//if selected image exists, hide upload elements
 					hideUploadElements();
 
-					setTextForInfoProgress(infoProgressMessages.editing);
+					//setTextForInfoProgress(infoProgressMessages.editing);
 	
 					//CHATBOT.addChatEntry(infoProgressMessages.editing,'bot');					
 	
