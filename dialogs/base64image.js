@@ -468,7 +468,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 					id: "alt_long_desc",
 					label: "Descrição longa: (Opcional)"+
 					'<a tabindex="0" id="labelLongDesc" data-toggle="popover" title="Descrição Longa" role="button"'+ 
-					'data-content="A <strong>descrição longa</strong> pode ser utilizada quando o espaço de 100 caracteres no texto alternativo for insuficiente para descrever a imagem. Assim, a descrição longa é um elemento <strong>opcional</strong> e deve ser utilizado em conjunto com o texto alternativo. Lembrando que não deve haver redundância entre eles. <br/> <a href=\'/editor/recomendacoes/imagem\' style=\'color:blue;text-decoration:underline;\' target=\'_blank\'>Clique aqui e veja algumas dicas e </br> recomendações para descrições de imagens</a>"'+
+					'data-content="A <strong>descrição longa</strong> pode ser utilizada quando o espaço de 100 caracteres no texto alternativo for insuficiente para descrever a imagem. Assim, a descrição longa é um elemento <strong>opcional</strong> e deve ser utilizado em conjunto com o texto alternativo. Lembrando que não deve haver redundância entre eles."'+
 					'data-container="#labelLongDesc" data-html="true">'+													
 						'<i class="fa fa-question-circle" aria-hidden="true"'+ 
 						'style="font: normal normal normal 14px/1 FontAwesome !important; font-size: inherit !important;'+
@@ -553,7 +553,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 					id: "alt_long_desc",
 					label: "Descrição longa: (Opcional)"+
 					'<a tabindex="0" id="labelLongDesc" data-toggle="popover" title="Descrição Longa" role="button"'+ 
-					'data-content="A <strong>descrição longa</strong> pode ser utilizada quando o espaço de 100 caracteres no texto alternativo for insuficiente para descrever a imagem. Assim, a descrição longa é um elemento <strong>opcional</strong> e deve ser utilizado em conjunto com o texto alternativo. Lembrando que não deve haver redundância entre eles. <br/> <a href=\'/editor/recomendacoes/imagem\' style=\'color:blue;text-decoration:underline;\' target=\'_blank\'>Clique aqui e veja algumas dicas e </br> recomendações para descrições de imagens</a>"'+
+					'data-content="A <strong>descrição longa</strong> pode ser utilizada quando o espaço de 100 caracteres no texto alternativo for insuficiente para descrever a imagem. Assim, a descrição longa é um elemento <strong>opcional</strong> e deve ser utilizado em conjunto com o texto alternativo. Lembrando que não deve haver redundância entre eles."'+
 					'data-container="#labelLongDesc" data-html="true">'+													
 						'<i class="fa fa-question-circle" aria-hidden="true"'+ 
 						'style="font: normal normal normal 14px/1 FontAwesome !important; font-size: inherit !important;'+
@@ -838,7 +838,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 			var labelText = label.innerText.substring(0, label.innerText.indexOf(":"));
 			label.innerHTML = labelText + ": (" + t.getValueOf("tab-source", "alt").length + "/" + altTextCharLimit + ")"
 			+ '<a tabindex="0" id="labelAlt" data-toggle="popover" title="Texto Alternativo" role="button"'+ 
-			'data-content="O <strong>texto alternativo</strong> é um atributo <strong>obrigatório</strong> em imagens que serve para se adicionar uma descrição breve, de até 100 caracteres, sobre ela. <br/> <a href=\'/editor/recomendacoes/imagem\' style=\'color:blue;text-decoration:underline;\' target=\'_blank\'>Clique aqui e veja algumas dicas e </br> recomendações para descrições de imagens</a>"'+
+			'data-content="O <strong>texto alternativo</strong> é um atributo <strong>obrigatório</strong> em imagens que serve para se adicionar uma descrição breve, de até 100 caracteres, sobre ela."'+
 			'data-container="#labelAlt" data-html="true">'+													
 				'<i class="fa fa-question-circle" aria-hidden="true"'+ 
 				'style="font: normal normal normal 14px/1 FontAwesome !important; font-size: inherit !important;'+
