@@ -970,7 +970,7 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 	
 					var selectedImgDescription = editor.document.findOne('figcaption#'+selectedImg.getAttribute("aria-describedby"));
 					if(selectedImgDescription){
-						t.setValueOf("tab-source", "alt_long_desc", selectedImgDescription.$.innerText);
+						t.setValueOf("tab-source", "alt_long_desc", selectedImgDescription.$.innerText);						
 					}else{
 						selectedImg.removeAttribute("aria-describedby");
 					}
@@ -1090,10 +1090,11 @@ CKEDITOR.dialog.add("base64imageDialog", function (editor) {
 						description = selectedImgDescription;
 					}else{
 						descriptionId = 'longdesc_'+Date.now().toString(16);
-						description = new CKEDITOR.dom.element("figcaption");
+						description = new CKEDITOR.dom.element("figcaption");						
 					}
 					description.setAttribute("id", descriptionId)
 							   .setStyle("text-align","justify")
+							   .addClass("sr-only")
 							   .setHtml(t.getValueOf("tab-source", "alt_long_desc"));
 					newImg.setAttribute("aria-describedby", descriptionId);
 				}else{
